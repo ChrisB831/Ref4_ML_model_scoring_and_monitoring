@@ -5,6 +5,8 @@ Author: Christopher Bonham
 Date: 16th February 2023
 '''
 import json
+import os
+import pickle
 
 
 def read_config(pth, display=False):
@@ -26,3 +28,19 @@ def read_config(pth, display=False):
         print(json.dumps(config, indent=3))
 
     return config
+
+
+def load_model(in_path):
+    '''Load model
+    Inputs:
+        in_path (string)
+            Path to model directroy
+
+    Outputs:
+        sklearn.linear_model._logistic.LogisticRegression
+            Logistic regression model
+    '''
+    with open(os.path.join(in_path, "trainedmodel.pkl"), 'rb') as file:
+        lr = pickle.load(file)
+
+    return lr

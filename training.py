@@ -18,10 +18,10 @@ logger = logging.getLogger()
 
 
 def load_training_data(in_path):
-    '''Load traning data to dataframe
+    '''Load training data to dataframe
     Inputs:
         in_path (string)
-            Path to data to training data
+            Path to training data
 
     Outputs:
         pandas.dataframe
@@ -50,8 +50,8 @@ def train_model(df, out_path):
     # Extract labels and features
     y = df["exited"]
     X = df[["lastmonth_activity", "lastyear_activity", "number_of_employees"]]
-    logger.info(f"y shape: {y.shape}")
-    logger.info(f"X shape: {X.shape}")
+    logger.info(f"training.py: y shape: {y.shape}")
+    logger.info(f"training.py: X shape: {X.shape}")
 
     # Instantiate a Logistic regression model object
     lr = LogisticRegression(
@@ -86,7 +86,7 @@ def main():
     # Read the configuration file
     config = read_config(r".\config.json")
     # config = read_config(r".\config.json", display = True)
-    logger.info("ingestion.py: Configuration file read")
+    logger.info("training.py: Configuration file read")
 
     # Load the trainiing data
     df = load_training_data(
