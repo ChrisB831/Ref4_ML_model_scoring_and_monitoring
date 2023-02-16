@@ -1,39 +1,22 @@
-import pandas as pd
-import numpy as np
-import os
-import json
-import logging
-from datetime import datetime
+'''
+Functionality to ingest the development data
 
+Author: Christopher Bonham
+Date: 16th February 2023
+'''
+import pandas as pd
+import os
+import logging
+from utils.io import read_config
 
 # Create a logger
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()
 
 
-def read_config(pth, display = False):
-    '''Read in a config file (JSON format) and return a dictionary object
-
-    Inputs:
-        pth (string)
-            Path to config file
-        display (boolean default = False
-            Display contents of config JSON to scree
-    Outputs:
-        dict
-            Contents of config file
-    '''
-    with open(pth, 'r') as fp:
-        config = json.load(fp)
-
-    if display == True:
-        print(json.dumps(config, indent = 3))
-
-    return config
-
-
 def ingest_data(in_path, out_path):
-    '''Ingest data, combine into a single dataset, Read in a config file (JSON format) and return a dictionary object
+    '''Ingest data, combine into a single dataset, Read in a config file
+    (JSON format) and return a dictionary object
 
     Inputs:
         in_path (string)
@@ -54,7 +37,7 @@ def ingest_data(in_path, out_path):
     for idx, fname in enumerate(fnames):
 
         # Use the first csv file to set the df metadata
-        if idx ==0:
+        if idx == 0:
             df = pd.read_csv(os.path.join(in_path, fname))
         else:
             _ = pd.read_csv(os.path.join(in_path, fname))
@@ -67,13 +50,14 @@ def ingest_data(in_path, out_path):
     if not os.path.exists(out_path):
         os.makedirs(out_path)
     df.to_csv(os.path.join(out_path, "finaldata.csv"), index=False)
-    logger.info(f"ingestion.py: Ingested data written to {os.path.join(out_path, 'finaldata.csv')}")
+    logger.info(f"ingestion.py: Ingested data written to "
+                f"{os.path.join(out_path, 'finaldata.csv')}")
 
     # Write names of ingested files
     with open(os.path.join(out_path, "ingestedfiles"), "w") as fp:
         fp.write(str(fnames))
-    logger.info(f"ingestion.py: Ingested file list written to {os.path.join(out_path, 'ingestedfiles.txt')}")
-
+    logger.info(f"ingestion.py: Ingested file list written to"
+                f" {os.path.join(out_path, 'ingestedfiles.txt')}")
 
 
 def main():
@@ -84,12 +68,9 @@ def main():
     Outputs:
         None
     '''
-
-    # Get the configuration
-#    config = read_config(".\config.json", display=True)
-    config = read_config(".\config.json")
+    # Read the configuration file
+    config = read_config(r".\config.json")
     logger.info("ingestion.py: Configuration file read")
-
 
     # Ingest the data
     ingest_data(
@@ -98,19 +79,6 @@ def main():
     )
 
 
-
-
-
-
-    # output_folder_path = config["output_folder_path"]
-    # logger.info(f"ingestion.py: output_folder_path: {output_folder_path}")
-
-
-
-
 # Top level script entry point
 if __name__ == '__main__':
     main()
-
-
-
