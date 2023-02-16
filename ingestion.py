@@ -9,14 +9,14 @@ import os
 import logging
 from utils.io import read_config
 
+
 # Create a logger
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()
 
 
 def ingest_data(in_path, out_path):
-    '''Ingest data, combine into a single dataset, Read in a config file
-    (JSON format) and return a dictionary object
+    '''Ingest training data, combine into a single dataset and write to csv
 
     Inputs:
         in_path (string)
@@ -54,7 +54,7 @@ def ingest_data(in_path, out_path):
                 f"{os.path.join(out_path, 'finaldata.csv')}")
 
     # Write names of ingested files
-    with open(os.path.join(out_path, "ingestedfiles"), "w") as fp:
+    with open(os.path.join(out_path, "ingestedfiles.txt"), "w") as fp:
         fp.write(str(fnames))
     logger.info(f"ingestion.py: Ingested file list written to"
                 f" {os.path.join(out_path, 'ingestedfiles.txt')}")
