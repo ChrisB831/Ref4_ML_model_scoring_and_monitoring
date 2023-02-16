@@ -6,7 +6,7 @@ import os
 import json
 
 ##################Load config.json and get environment variables
-with open('config.json','r') as f:
+with open('config.json', 'r') as f:
     config = json.load(f) 
 
 dataset_csv_path = os.path.join(config['output_folder_path']) 
