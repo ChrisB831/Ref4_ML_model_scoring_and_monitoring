@@ -49,11 +49,11 @@ def load_training_data(in_path):
         pandas.dataframe
             Training data
     '''
-    logger.info(f"training.py: Input folder path: {in_path}")
+    logger.info(f"diagnostics.py: Input folder path: {in_path}")
 
     # Load training data
     df = pd.read_csv(os.path.join(in_path, "finaldata.csv"))
-    logger.info(f"training.py: Training data shape: {df.shape}")
+    logger.info(f"diagnostics.py: Training data shape: {df.shape}")
 
     return df
 
@@ -72,7 +72,7 @@ def dataframe_summary(df):
     '''
     # Get a list of all the numeric columns in the dataframe
     numeric_vnames = list(df.select_dtypes(include='number').columns.values)
-    print(numeric_vnames)
+    logger.info(f"diagnostics.py: Numeric fields are: {numeric_vnames}")
 
     # Get summary statistics list
     summary_stats = []
@@ -82,6 +82,20 @@ def dataframe_summary(df):
         summary_stats.append(df[var].std())
 
     return summary_stats
+
+
+def missing_data(df):
+    '''Get the percentage of missing values for eack field
+
+    Inputs:
+        df (Pandas.datafrane)
+            Dataframe to get statistics
+    Outputs:
+        list
+            Percentage of missing values
+    '''
+    logger.info(f"diagnostics.py: Fields are: {list(df.columns.values)}")
+    return list(df.isnull().sum() / df.shape[0])
 
 
 def main():
@@ -96,13 +110,20 @@ def main():
     config = read_config(r".\config.json")
     logger.info("diagnostics.py: Configuration file read")
 
-    # Get summary statistics
+    # Load training data
     df = load_training_data(
         os.path.join(os.getcwd(), config["output_folder_path"])
     )
+
+    # Get summary statistics
     summary_stats = dataframe_summary(df)
     logger.info(f"diagnostics.py: Summary statistics [mean, medias, sd] are"
                 f" {summary_stats}")
+
+    # Get missing values
+    missing_values = missing_data(df)
+    logger.info(f"diagnostics.py: Missing value percentages are:"
+                f" {missing_values}")
 
 
 # Top level script entry point
@@ -110,14 +131,13 @@ if __name__ == '__main__':
     main()
 
 
-
 '''
 ##################Load config.json and get environment variables
 with open('config.json', 'r') as f:
-    config = json.load(f) 
+    config = json.load(f)
 
-dataset_csv_path = os.path.join(config['output_folder_path']) 
-test_data_path = os.path.join(config['test_data_path']) 
+dataset_csv_path = os.path.join(config['output_folder_path'])
+test_data_path = os.path.join(config['test_data_path'])
 
 ##################Function to get model predictions
 def model_predictions():
@@ -136,7 +156,7 @@ def execution_time():
 
 ##################Function to check dependencies
 def outdated_packages_list():
-    #get a list of 
+    #get a list of
 
 
 if __name__ == '__main__':
