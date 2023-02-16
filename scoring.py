@@ -1,5 +1,5 @@
 '''
-Functionality to apply themodel to new data
+Functionality to apply the model to new data
 
 Author: Christopher Bonham
 Date: 16th February 2023
