@@ -1,5 +1,5 @@
 '''
-Functionality to apply the model to new data
+Functionality to apply the model to new data and get F1 performance
 
 Author: Christopher Bonham
 Date: 16th February 2023

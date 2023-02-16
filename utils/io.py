@@ -34,7 +34,7 @@ def load_model(in_path):
     '''Load model
     Inputs:
         in_path (string)
-            Path to model directroy
+            Path to model directory
 
     Outputs:
         sklearn.linear_model._logistic.LogisticRegression
@@ -47,14 +47,16 @@ def load_model(in_path):
 
 
 def apply_model(df, lr):
-    '''Load test data to dataframe
+    '''Apply a logistic regression model to a pandas dataframe
+
     Inputs:
-        df (Pandas.datafrane)
-            Data to score
-        lr (sklearn.linear_model._logistic.LogisticRegression)
-            Logistic regression model
+        df (pandas.DataFrame)
+            Dataframe to apply model to
+        lr (sklearn.linear_model._logistic.LogisticRegression
+            Logistic regression model)
+
     Outputs:
-        numpy.ndarray
+        numpy.array
             Model scores
     '''
     # Extract features
