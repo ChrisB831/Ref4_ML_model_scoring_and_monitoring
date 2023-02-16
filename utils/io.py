@@ -44,3 +44,23 @@ def load_model(in_path):
         lr = pickle.load(file)
 
     return lr
+
+
+def apply_model(df, lr):
+    '''Load test data to dataframe
+    Inputs:
+        df (Pandas.datafrane)
+            Data to score
+        lr (sklearn.linear_model._logistic.LogisticRegression)
+            Logistic regression model
+    Outputs:
+        numpy.ndarray
+            Model scores
+    '''
+    # Extract features
+    X = df[["lastmonth_activity", "lastyear_activity", "number_of_employees"]]
+
+    # Get model prediction
+    y_pred = lr.predict(X)
+
+    return y_pred

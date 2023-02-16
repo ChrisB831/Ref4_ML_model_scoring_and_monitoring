@@ -7,7 +7,7 @@ Date: 16th February 2023
 import pandas as pd
 import os
 import logging
-from utils.io import read_config, load_model
+from utils.io import read_config, load_model, apply_model
 from sklearn.metrics import f1_score
 
 
@@ -35,7 +35,7 @@ def load_test_data(in_path):
     return df
 
 
-def apply_model(df, lr, out_path):
+def get_f1_score(df, lr, out_path):
     '''Load test data to dataframe
     Inputs:
         df (Pandas.datafrane)
@@ -49,14 +49,13 @@ def apply_model(df, lr, out_path):
     '''
     logger.info(f"scoring.py: Output folder path: {out_path}")
 
-    # Extract features
-    y = df["exited"]
-    X = df[["lastmonth_activity", "lastyear_activity", "number_of_employees"]]
-    logger.info(f"scoring.py: y shape: {y.shape}")
-    logger.info(f"scoring.py: X shape: {X.shape}")
+    # Get model scores
+    y_pred = apply_model(df, lr)
 
-    # Get model prediction and F1 score
-    y_pred = lr.predict(X)
+    # Extract labels
+    y = df["exited"]
+
+    # Get model F1 score
     f1 = f1_score(y, y_pred)
     logger.info(f"scoring.py: f1 score: {f1}")
 
@@ -89,8 +88,8 @@ def main():
         os.path.join(os.getcwd(), config["output_model_path"])
     )
 
-    # Apply the model to the test data and save F1 score
-    apply_model(
+    # Get F1 scvore3
+    get_f1_score(
         df, lr,
         os.path.join(os.getcwd(), config["output_model_path"])
     )

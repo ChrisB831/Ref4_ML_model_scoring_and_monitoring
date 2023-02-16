@@ -4,12 +4,10 @@ Functionality to apply the model to new data
 Author: Christopher Bonham
 Date: 16th February 2023
 '''
-import pandas as pd
 import os
 import logging
 from utils.io import read_config
 import shutil
-
 
 
 # Create a logger
@@ -55,9 +53,7 @@ def deploy_artifacts_to_prod(model_path, ingested_files_path, deploy_path):
         os.path.join(ingested_files_path, "ingestedfiles.txt"),
         os.path.join(deploy_path, "ingestedfiles.txt"),
     )
-
-    logger.info(f"deployment.py: Model artifacts deployed to live")
-
+    logger.info("deployment.py: Model artifacts deployed to live")
 
 
 def main():
@@ -71,7 +67,6 @@ def main():
     # Read the configuration file
     config = read_config(r".\config.json")
     logger.info("deployment.py: Configuration file read")
-
 
     # Copy relevant files to production
     deploy_artifacts_to_prod(
