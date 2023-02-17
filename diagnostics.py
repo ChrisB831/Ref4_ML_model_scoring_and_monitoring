@@ -12,7 +12,6 @@ import subprocess
 from utils.io import read_config, load_model, apply_model
 
 
-
 # Create a logger
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()
@@ -100,6 +99,29 @@ def missing_data(df):
     return list(df.isnull().sum() / df.shape[0])
 
 
+def execution_time():
+    '''Time the ingestion.py and training.py modules
+
+    Inputs:
+        None
+    Outputs:
+        list
+            Training times in seconds
+    '''
+
+    # Time the ingestion.py script
+    starttime = timeit.default_timer()
+    os.system("python ingestion.py")
+    runtime_ingestion = timeit.default_timer() - starttime
+
+    # Time the training.py script
+    starttime = timeit.default_timer()
+    os.system("python training.py")
+    runtime_training = timeit.default_timer() - starttime
+
+    return [runtime_ingestion, runtime_training]
+
+
 def outdated_packages_list():
     '''Get a list of all outdated packages
 
@@ -109,17 +131,10 @@ def outdated_packages_list():
         None
     '''
     response = subprocess.run(["python", "-m", "pip", "list", "--outdated"],
-                               capture_output=True).stdout
+                              capture_output=True).stdout
 
     response = response.decode("utf-8")
-
     logger.info(f"diagnostics.py: Outdated dependencies are:\n{response}")
-
-
-
-
-
-
 
 
 def main():
@@ -149,6 +164,11 @@ def main():
     logger.info(f"diagnostics.py: Missing value percentages are:"
                 f" {missing_values}")
 
+    # Time the ingestion.py and training.py modules
+    timings = execution_time()
+    logger.info(f"diagnostics.py: Runtime for ingestion and training "
+                f"modules are: {timings}")
+
     # Get a table of all outdated packages
     outdated_packages_list()
 
@@ -156,39 +176,3 @@ def main():
 # Top level script entry point
 if __name__ == '__main__':
     main()
-
-
-'''
-##################Load config.json and get environment variables
-with open('config.json', 'r') as f:
-    config = json.load(f)
-
-dataset_csv_path = os.path.join(config['output_folder_path'])
-test_data_path = os.path.join(config['test_data_path'])
-
-##################Function to get model predictions
-def model_predictions():
-    #read the deployed model and a test dataset, calculate predictions
-    return #return value should be a list containing all predictions
-
-##################Function to get summary statistics
-def dataframe_summary():
-    #calculate summary statistics here
-    return #return value should be a list containing all summary statistics
-
-##################Function to get timings
-def execution_time():
-    #calculate timing of training.py and ingestion.py
-    return #return a list of 2 timing values in seconds
-
-##################Function to check dependencies
-def outdated_packages_list():
-    #get a list of
-
-
-if __name__ == '__main__':
-    model_predictions()
-    dataframe_summary()
-    execution_time()
-    outdated_packages_list()
-'''
