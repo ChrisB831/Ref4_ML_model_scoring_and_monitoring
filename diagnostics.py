@@ -8,7 +8,9 @@ import pandas as pd
 import os
 import timeit
 import logging
+import subprocess
 from utils.io import read_config, load_model, apply_model
+
 
 
 # Create a logger
@@ -98,6 +100,28 @@ def missing_data(df):
     return list(df.isnull().sum() / df.shape[0])
 
 
+def outdated_packages_list():
+    '''Get a list of all outdated packages
+
+    Inputs:
+        None
+    Outputs:
+        None
+    '''
+    response = subprocess.run(["python", "-m", "pip", "list", "--outdated"],
+                               capture_output=True).stdout
+
+    response = response.decode("utf-8")
+
+    logger.info(f"diagnostics.py: Outdated dependencies are:\n{response}")
+
+
+
+
+
+
+
+
 def main():
     '''Main functionality call
 
@@ -124,6 +148,9 @@ def main():
     missing_values = missing_data(df)
     logger.info(f"diagnostics.py: Missing value percentages are:"
                 f" {missing_values}")
+
+    # Get a table of all outdated packages
+    outdated_packages_list()
 
 
 # Top level script entry point
