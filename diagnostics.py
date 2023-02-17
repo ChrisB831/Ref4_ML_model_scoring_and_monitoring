@@ -128,13 +128,15 @@ def outdated_packages_list():
     Inputs:
         None
     Outputs:
-        None
+        str
+            Outdated packages
     '''
     response = subprocess.run(["python", "-m", "pip", "list", "--outdated"],
                               capture_output=True).stdout
 
     response = response.decode("utf-8")
-    logger.info(f"diagnostics.py: Outdated dependencies are:\n{response}")
+    return(response)
+    logger.info(f"diagnostics.py: Outdated dependencies are:\n{response_decoded}")
 
 
 def main():
@@ -170,7 +172,7 @@ def main():
                 f"modules are: {timings}")
 
     # Get a table of all outdated packages
-    outdated_packages_list()
+    outdated_packages = outdated_packages_list()
 
 
 # Top level script entry point

@@ -88,7 +88,7 @@ def main():
         os.path.join(os.getcwd(), config["output_model_path"])
     )
 
-    # Get F1 scvore3
+    # Get F1 score
     get_f1_score(
         df, lr,
         os.path.join(os.getcwd(), config["output_model_path"])
