@@ -1,0 +1,1 @@
+*/10 * * * * python3 "/mnt/g/My Drive/Work/002 Code store/Python/PyCharm/Udacity/p4/fullprocess.py"

@@ -1,9 +1,6 @@
 '''
 Functionality to automate the ML scoring and monitoring
 
-Warning for some reson sklearn turns off the logging functionality?
-
-
 Author: Christopher Bonham
 Date: 18th February 2023
 '''
