@@ -36,7 +36,7 @@ def load_test_data(in_path):
 
 
 def get_f1_score(df, lr, out_path):
-    '''Load test data to dataframe
+    '''Get f1 score
     Inputs:
         df (Pandas.datafrane)
             Data to score
@@ -60,6 +60,9 @@ def get_f1_score(df, lr, out_path):
     logger.info(f"scoring.py: f1 score: {f1}")
 
     # Write f1 score to file
+    # Create folder if it doesnt exists
+    if not os.path.exists(out_path):
+        os.makedirs(out_path)
     with open(os.path.join(out_path, "latestscore.txt"), "w") as fp:
         fp.write(str(f1))
     logger.info(f"scoring.py: f1 score written to"

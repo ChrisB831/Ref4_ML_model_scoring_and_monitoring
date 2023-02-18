@@ -1,10 +1,13 @@
 
 
-import training
-import scoring
-import deployment
-import diagnostics
-import reporting
+
+
+
+# import training
+# import scoring
+# import deployment
+# import diagnostics
+# import reporting
 
 ##################Check and read new data
 #first, read ingestedfiles.txt

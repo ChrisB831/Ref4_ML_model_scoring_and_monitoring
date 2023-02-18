@@ -40,7 +40,6 @@ def deploy_artifacts_to_prod(model_path, ingested_files_path, deploy_path):
         os.makedirs(deploy_path)
 
     # Copy files to production
-    # WE MAY NEED TO MODIFY THIS WHEN WE MOVE TO LINUX
     shutil.copyfile(
         os.path.join(model_path, "latestscore.txt"),
         os.path.join(deploy_path, "latestscore.txt"),
